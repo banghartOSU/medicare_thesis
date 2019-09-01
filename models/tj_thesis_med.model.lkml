@@ -12,6 +12,8 @@ persist_with: tj_thesis_med_default_datagroup
 
 explore: outpatient_charge {}
 
+explore: outpatient_survey {}
+
 explore: outpatient_compare {
 
   join: general_info {
@@ -47,5 +49,10 @@ explore: general_info {
     type: left_outer
     relationship: one_to_many
     sql_on: ${general_info.provider_id} = ${outpatient_charge.provider_id} ;;
+  }
+  join: death_and_complications {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${general_info.provider_id} = ${death_and_complications.provider_id} ;;
   }
 }
