@@ -10,9 +10,13 @@ datagroup: tj_thesis_med_default_datagroup {
 
 persist_with: tj_thesis_med_default_datagroup
 
-explore: outpatient_charge {}
-
-explore: outpatient_survey {}
+explore: outpatient_survey {
+  join: general_info {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${outpatient_survey.facility_name} = ${general_info.hospital_name} ;;
+  }
+}
 
 explore: outpatient_compare {
 

@@ -71,8 +71,8 @@ view: outpatient_survey {
     sql: ${TABLE}.Measure_Start_Date ;;
   }
 
-  dimension: number_of_completed_surveys {
-    type: number
+  measure: number_of_completed_surveys {
+    type: sum
     sql: ${TABLE}.Number_of_Completed_Surveys ;;
   }
 
@@ -91,63 +91,63 @@ view: outpatient_survey {
     sql: ${TABLE}.Patients_recommending_the_facility_linear_mean_score ;;
   }
 
-  dimension: patients_who_gave_the_facility_a_rating_of_0_to_6_on_a_scale_from_0__lowest__to_10__highest_ {
-    type: number
+  measure: 0_to_6 {
+    type: sum
     sql: ${TABLE}.Patients_who_gave_the_facility_a_rating_of_0_to_6_on_a_scale_from_0__lowest__to_10__highest_ ;;
   }
 
-  dimension: patients_who_gave_the_facility_a_rating_of_7_or_8_on_a_scale_from_0__lowest__to_10__highest_ {
-    type: number
+  measure: 7_or_8 {
+    type: sum
     sql: ${TABLE}.Patients_who_gave_the_facility_a_rating_of_7_or_8_on_a_scale_from_0__lowest__to_10__highest_ ;;
   }
 
-  dimension: patients_who_gave_the_facility_a_rating_of_9_or_10_on_a_scale_from_0__lowest__to_10__highest_ {
-    type: number
+  measure: 9_or_10 {
+    type: sum
     sql: ${TABLE}.Patients_who_gave_the_facility_a_rating_of_9_or_10_on_a_scale_from_0__lowest__to_10__highest_ ;;
   }
 
-  dimension: patients_who_reported_no__they_would_not_recommend_the_facility_to_family_or_friends {
-    type: number
+  measure: patients_who_would_not_recommend_the_facility_to_family_or_friends {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_NO__they_would_not_recommend_the_facility_to_family_or_friends ;;
   }
 
-  dimension: patients_who_reported_probably_yes_they_would_recommend_the_facility_to_family_or_friends {
-    type: number
+  measure: patients_who_reported_they_would_recommend_the_facility_to_family_or_friends {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_PROBABLY_YES_they_would_recommend_the_facility_to_family_or_friends ;;
   }
 
-  dimension: patients_who_reported_that_staff_definitely_communicated_about_what_to_expect_during_and_after_the_procedure {
-    type: number
+ measure: patients_who_reported_that_staff_definitely_communicated_about_what_to_expect_during_and_after_the_procedure {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_that_staff_definitely_communicated_about_what_to_expect_during_and_after_the_procedure ;;
   }
 
-  dimension: patients_who_reported_that_staff_definitely_gave_care_in_a_professional_way_and_the_facility_was_clean {
-    type: number
+  measure: patients_who_reported_that_staff_definitely_gave_care_in_a_professional_way_and_the_facility_was_clean {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_that_staff_definitely_gave_care_in_a_professional_way_and_the_facility_was_clean ;;
   }
 
-  dimension: patients_who_reported_that_staff_did_not_communicate_about_what_to_expect_during_and_after_the_procedure {
-    type: number
+  measure: patients_who_reported_that_staff_did_not_communicate_about_what_to_expect_during_and_after_the_procedure {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_that_staff_did_not_communicate_about_what_to_expect_during_and_after_the_procedure ;;
   }
 
-  dimension: patients_who_reported_that_staff_did_not_give_care_in_a_professional_way_or_the_facility_was_not_clean {
-    type: number
+  measure: patients_who_reported_that_staff_did_not_give_care_in_a_professional_way_or_the_facility_was_not_clean {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_that_staff_did_not_give_care_in_a_professional_way_or_the_facility_was_not_clean ;;
   }
 
-  dimension: patients_who_reported_that_staff_somewhat_communicated_about_what_to_expect_during_and_after_the_procedure {
-    type: number
+  measure: patients_who_reported_that_staff_somewhat_communicated_about_what_to_expect_during_and_after_the_procedure {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_that_staff_somewhat_communicated_about_what_to_expect_during_and_after_the_procedure ;;
   }
 
-  dimension: patients_who_reported_that_staff_somewhat_gave_care_in_a_professional_way_or_the_facility_was_somewhat_clean {
-    type: number
+  measure: patients_who_reported_that_staff_somewhat_gave_care_in_a_professional_way_or_the_facility_was_somewhat_clean {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_that_staff_somewhat_gave_care_in_a_professional_way_or_the_facility_was_somewhat_clean ;;
   }
 
-  dimension: patients_who_reported_yes_they_would_definitely_recommend_the_facility_to_family_or_friends {
-    type: number
+  measure: patients_who_reported_yes_they_would_definitely_recommend_the_facility_to_family_or_friends {
+    type: sum
     sql: ${TABLE}.Patients_who_reported_YES_they_would_DEFINITELY_recommend_the_facility_to_family_or_friends ;;
   }
 
