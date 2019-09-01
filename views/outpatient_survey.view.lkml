@@ -76,8 +76,8 @@ view: outpatient_survey {
     sql: ${TABLE}.Number_of_Completed_Surveys ;;
   }
 
-  dimension: number_of_sampled_patients {
-    type: number
+  measure: number_of_sampled_patients {
+    type: sum
     sql: ${TABLE}.Number_of_Sampled_Patients ;;
   }
 
