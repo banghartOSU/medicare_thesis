@@ -22,7 +22,6 @@ view: spending_by_claim {
     type: string
     sql: ${TABLE}.Claim_Type ;;
   }
-
   dimension: end_date {
     type: number
     sql: ${TABLE}.End_Date ;;
@@ -36,6 +35,11 @@ view: spending_by_claim {
   dimension: percent_of_spending_hospital {
     type: number
     sql: ${TABLE}.Percent_of_Spending_Hospital ;;
+  }
+  measure: percent_of_spending_hospital_measure {
+    type: sum
+    sql: ${percent_of_spending_hospital};;
+    value_format_name: percent_2
   }
 
   dimension: percent_of_spending_nation {

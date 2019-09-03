@@ -70,6 +70,10 @@ view: death_and_complications {
     type: string
     sql: ${TABLE}.Measure_Name ;;
   }
+  dimension: rate {
+    type: string
+    sql:  CASE WHEN ((lower(${measure_name})) LIKE '%rate%') THEN ${measure_name} ELSE NULL END ;;
+  }
 
   dimension_group: measure_start {
     type: time
@@ -98,8 +102,8 @@ view: death_and_complications {
   }
 
   dimension: score {
-    type: string
-    sql: ${TABLE}.Score ;;
+    type: number
+    sql: CASE WHEN ${TABLE}.Score = "Not Available" THEN 0 ELSE CAST(${TABLE}.Score AS FLOAT64) END ;;
   }
 
   dimension: state {
