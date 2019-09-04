@@ -70,11 +70,14 @@ view: death_and_complications {
     type: string
     sql: ${TABLE}.Measure_Name ;;
   }
-  dimension: rate {
+  dimension: rates {
     type: string
     sql:  CASE WHEN ((lower(${measure_name})) LIKE '%rate%') THEN ${measure_name} ELSE NULL END ;;
   }
-
+  dimension: occurances_of_complication_or_death {
+    type: number
+    sql: CEILING((${score}/100)*${denominator}) ;;
+  }
   dimension_group: measure_start {
     type: time
     timeframes: [
@@ -109,15 +112,26 @@ view: death_and_complications {
   dimension: state {
     type: string
     sql: ${TABLE}.State ;;
+    map_layer_name: us_states
+    link: {
+      label: "test"
+      url: "https://google.com"
+    }
   }
 
   dimension: zip_code {
     type: zipcode
     sql: ${TABLE}.ZIP_Code ;;
+    map_layer_name: us_zipcode_tabulation_areas
   }
 
   measure: count {
     type: count
     drill_fields: [county_name, measure_name, hospital_name]
+  }
+  measure: probability_of_complication_or_death {
+    type: number
+    sql: SUM(${occurances_of_complication_or_death})/SUM(NULLIF(${denominator},0)) ;;
+    value_format_name: percent_1
   }
 }

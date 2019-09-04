@@ -2,6 +2,7 @@ connection: "lookerdata_publicdata_standard_sql"
 
 # include all the views
 include: "/views/**/*.view"
+include: "//tj_thesis_demographics/datablocks-acs/bigquery.explore.lkml"
 
 datagroup: tj_thesis_med_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
