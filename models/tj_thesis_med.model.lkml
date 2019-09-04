@@ -8,8 +8,18 @@ datagroup: tj_thesis_med_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
 }
-
+#
 persist_with: tj_thesis_med_default_datagroup
+
+explore: demographics_death_and_facility {
+  extends: [fast_facts,general_info]
+  join: general_info {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${tract_zcta_map.ZCTA5} = ${general_info.zip_code} ;;
+  }
+}
+
 
 explore: outpatient_survey {
   join: general_info {
@@ -19,7 +29,6 @@ explore: outpatient_survey {
   }
 }
 explore: outpatient_compare {
-
   join: general_info {
     sql_on: ${general_info.provider_id} = ${outpatient_compare.provider_id} ;;
     relationship: one_to_many
@@ -29,7 +38,6 @@ explore: outpatient_compare {
 }
 
 explore: general_info {
-  extends: [bq_logrecno_bg_map]
   join: spending_by_claim {
     type: left_outer
     relationship: one_to_many
@@ -59,10 +67,5 @@ explore: general_info {
     type: left_outer
     relationship: one_to_many
     sql_on: ${general_info.provider_id} = ${death_and_complications.provider_id} ;;
-  }
-  join: bq_logrecno_bg_map {
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${tract_zcta_map.ZCTA5} = ${general_info.zip_code} ;;
   }
 }
