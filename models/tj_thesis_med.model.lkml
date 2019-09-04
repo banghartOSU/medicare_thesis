@@ -8,7 +8,7 @@ datagroup: tj_thesis_med_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
 }
-
+#
 persist_with: tj_thesis_med_default_datagroup
 
 explore: outpatient_survey {
