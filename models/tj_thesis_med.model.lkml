@@ -18,7 +18,6 @@ explore: outpatient_survey {
     sql_on: ${outpatient_survey.facility_name} = ${general_info.hospital_name} ;;
   }
 }
-
 explore: outpatient_compare {
 
   join: general_info {
