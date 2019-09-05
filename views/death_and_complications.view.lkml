@@ -13,7 +13,10 @@ view: death_and_complications {
 
   dimension: compared_to_national {
     type: string
-    sql: CASE WHEN ${TABLE}.Compared_to_National = "No Different Than the National Value" THEN "No Different Than the National Rate" ELSE ${TABLE}.Compared_to_National END ;;
+    sql:
+      CASE WHEN ${TABLE}.Compared_to_National = "No Different Than the National Value"
+        THEN "No Different Than the National Rate"
+      ELSE ${TABLE}.Compared_to_National END ;;
   }
 
   dimension: county_name {
@@ -23,7 +26,10 @@ view: death_and_complications {
 
   dimension: denominator {
     type: string
-    sql: CASE WHEN ${TABLE}.Denominator = "Not Available" THEN 0 ELSE CAST(${TABLE}.Denominator as INT64) END ;;
+    sql:
+      CASE WHEN ${TABLE}.Denominator = "Not Available"
+        THEN 0
+      ELSE CAST(${TABLE}.Denominator as INT64) END ;;
   }
 
   dimension: footnote {
@@ -72,11 +78,33 @@ view: death_and_complications {
   }
   dimension: rates {
     type: string
-    sql:  CASE WHEN ((lower(${measure_name})) LIKE '%rate%') THEN ${measure_name} ELSE NULL END ;;
+    sql:
+      CASE WHEN lower(${measure_name}) LIKE '%rate%'
+        THEN ${measure_name}
+      ELSE NULL END ;;
+  }
+  dimension: composite_measures {
+    type: string
+    sql:
+    CASE WHEN ${measure_id} LIKE "%PSI_3%"
+          OR  ${measure_id} LIKE "%PSI_6%"
+          OR  ${measure_id} LIKE "%PSI_8%"
+          OR  ${measure_id} LIKE "%PSI_9%"
+          OR  ${measure_id} LIKE "%PSI_10%"
+          OR  ${measure_id} LIKE "%PSI_11%"
+          OR  ${measure_id} LIKE "%PSI_12%"
+          OR  ${measure_id} LIKE "%PSI_13%"
+          OR  ${measure_id} LIKE "%PSI_14%"
+          OR  ${measure_id} LIKE "%PSI_15%"
+    THEN ${measure_name}
+    ELSE NULL END ;;
   }
   dimension: occurances_of_complication_or_death {
     type: number
-    sql: CEILING((${score}/100)*${denominator}) ;;
+    sql:
+    CASE WHEN ${rates} IS NULL AND ${composite_measures} IS NOT NULL
+      THEN ${score}
+    ELSE CEILING((${score}/100)*${denominator}) END ;;
   }
   dimension_group: measure_start {
     type: time
@@ -106,7 +134,10 @@ view: death_and_complications {
 
   dimension: score {
     type: number
-    sql: CASE WHEN ${TABLE}.Score = "Not Available" THEN 0 ELSE CAST(${TABLE}.Score AS FLOAT64) END ;;
+    sql:
+    CASE WHEN ${TABLE}.Score = "Not Available"
+      THEN 0
+    ELSE CAST(${TABLE}.Score AS FLOAT64) END ;;
   }
 
   dimension: state {
@@ -114,24 +145,38 @@ view: death_and_complications {
     sql: ${TABLE}.State ;;
     map_layer_name: us_states
     link: {
-      label: "test"
-      url: "https://google.com"
+      label: "State Level"
+      url: "https://productday.dev.looker.com/dashboards/404?State={{value}}&Complication={{measure_name._value}}"
     }
   }
-
   dimension: zip_code {
     type: zipcode
     sql: ${TABLE}.ZIP_Code ;;
     map_layer_name: us_zipcode_tabulation_areas
   }
-
   measure: count {
     type: count
     drill_fields: [county_name, measure_name, hospital_name]
   }
-  measure: probability_of_complication_or_death {
+  measure: test {
     type: number
-    sql: SUM(${occurances_of_complication_or_death})/SUM(NULLIF(${denominator},0)) ;;
-    value_format_name: percent_1
+    sql:
+    CASE WHEN ${composite_measures} IS NOT NULL
+      THEN ${composite_measure_sum}
+    ELSE ${percentage_rate} END;;
   }
+  measure: composite_measure_sum {
+    type: sum_distinct
+    sql_distinct_key: CONCAT(${measure_name},CAST(${provider_id} as string)) ;;
+    sql: ${score} ;;
+    filters: {
+      field: composite_measures
+      value: "-NULL"
+    }
+  }
+  measure: percentage_rate {
+    type: number
+    sql: ROUND(SUM(${occurances_of_complication_or_death})/SUM(NULLIF(${denominator},0))*100,2) ;;
+    value_format_name: percent_1
+    }
 }

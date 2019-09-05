@@ -161,23 +161,24 @@ view: general_info {
   dimension: hospital_comparison {
     type: string
     sql:
-    CASE
-      WHEN {{hospital_name_filter._parameter_value}} = ${hospital_name}
-        THEN ${hospital_name}
-      ELSE 'REST OF POPULATION'
-    END ;;
+    CASE WHEN {{hospital_name_filter._parameter_value}} = ${hospital_name}
+      THEN ${hospital_name}
+    ELSE 'REST OF POPULATION' END ;;
   }
   dimension: region_of_hospital_to_compare {
     type: string
-    sql:CASE WHEN ${hospital_comparison} = {{hospital_name_filter._parameter_value}} THEN ${region_granularity_dim} ELSE NULL END  ;;
+    sql:
+    CASE WHEN ${hospital_comparison} = {{hospital_name_filter._parameter_value}}
+      THEN ${region_granularity_dim}
+    ELSE NULL END  ;;
   }
   parameter: region_granularity {
     type: string
-    allowed_value: {label:"State"     value: "State" }
-    allowed_value: {label:"City"      value: "City"  }
-    allowed_value: {label:"County"    value: "County"}
-    allowed_value: {label:"Zip"       value: "Zip"   }
-    allowed_value: {label:"National"  value: "National"   }
+    allowed_value: {label:"State"     value: "State"   }
+    allowed_value: {label:"City"      value: "City"    }
+    allowed_value: {label:"County"    value: "County"  }
+    allowed_value: {label:"Zip"       value: "Zip"     }
+    allowed_value: {label:"National"  value: "National"}
   }
   dimension: region_param {
     sql: {{region_granularity._parameter_value}} ;;
@@ -196,8 +197,6 @@ view: general_info {
       "USA"
     {% endif %};;
   }
-
-
   measure: count {
     type: count
     drill_fields: [county_name, hospital_name]
