@@ -158,11 +158,11 @@ view: death_and_complications {
     type: count
     drill_fields: [county_name, measure_name, hospital_name]
   }
-  measure: test {
+  measure: respective_scores {
     type: number
     sql:
     CASE WHEN ${composite_measures} IS NOT NULL
-      THEN ${composite_measure_sum}
+      THEN ${composite_measure_sum}/${count}
     ELSE ${percentage_rate} END;;
   }
   measure: composite_measure_sum {
@@ -177,6 +177,5 @@ view: death_and_complications {
   measure: percentage_rate {
     type: number
     sql: ROUND(SUM(${occurances_of_complication_or_death})/SUM(NULLIF(${denominator},0))*100,2) ;;
-    value_format_name: percent_1
     }
 }

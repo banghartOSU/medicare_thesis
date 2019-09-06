@@ -2,6 +2,7 @@ connection: "lookerdata_publicdata_standard_sql"
 
 include: "/views/**/*.view"
 include: "//tj_thesis_demographics/datablocks-acs/bigquery.explore.lkml"
+include: "//tj_thesis_demographics/datablocks-acs/zipcode_to_latlong_crosswalk.view"
 
 datagroup: tj_thesis_med_default_datagroup {
   max_cache_age: "1 hour"
@@ -15,6 +16,15 @@ explore: demographics_death_and_facility {
     type: left_outer
     relationship: many_to_one
     sql_on: ${tract_zcta_map.ZCTA5} = ${general_info.zip_code} ;;
+  }
+}
+explore: state_death_complication_measures {}
+explore: zip_to_location {
+  extends: [fast_facts]
+  join: zipcode_to_latlong_crosswalk {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${tract_zcta_map.ZCTA5} = ${zipcode_to_latlong_crosswalk.zipcode} ;;
   }
 }
 

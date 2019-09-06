@@ -166,6 +166,7 @@ view: general_info {
     ELSE 'REST OF POPULATION' END ;;
   }
   dimension: region_of_hospital_to_compare {
+
     type: string
     sql:
     CASE WHEN ${hospital_comparison} = {{hospital_name_filter._parameter_value}}
