@@ -14,7 +14,7 @@ explore: demographics_death_and_facility {
   extends: [fast_facts,general_info]
   join: general_info {
     type: left_outer
-    relationship: many_to_one
+    relationship: one_to_one
     sql_on: ${tract_zcta_map.ZCTA5} = ${general_info.zip_code} ;;
   }
 }

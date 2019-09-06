@@ -150,7 +150,7 @@ view: general_info {
 
   dimension: zip_code {
     type: zipcode
-    sql: CAST(${TABLE}.ZIP_Code as string);;
+    sql: LPAD(CAST(${TABLE}.ZIP_Code as STRING), 5, '0');;
     map_layer_name: us_zipcode_tabulation_areas
   }
 #############################ONE TO MANY COMPARISON#########################################
