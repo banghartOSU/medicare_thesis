@@ -1,6 +1,16 @@
 view: death_and_complications {
   sql_table_name: tj_thesis_med.death_and_complications ;;
 
+  ##For county level drill down
+  parameter: county_parameter {
+    hidden: no
+    type: number
+    suggest_dimension: zip_code
+  }
+  dimension: get_hospitals_in_county {
+    type: string
+    sql: CASE WHEN {{county_parameter._parameter_value}} = ${zip_code} THEN ${hospital_name} ELSE NULL END ;;
+  }
   dimension: address {
     type: string
     sql: ${TABLE}.Address ;;
@@ -10,7 +20,9 @@ view: death_and_complications {
     type: string
     sql: ${TABLE}.City ;;
   }
-
+  dimension: test {
+    sql: LOWER(${city}) ;;
+  }
   dimension: compared_to_national {
     type: string
     sql:
@@ -22,6 +34,10 @@ view: death_and_complications {
   dimension: county_name {
     type: string
     sql: ${TABLE}.County_Name ;;
+    link: {
+      label: "Select Hospital"
+      url: "https://productday.dev.looker.com/dashboards/406?County={{bq_logrecno_bg_map.county._value}}"
+    }
   }
 
   dimension: denominator {
@@ -151,7 +167,7 @@ view: death_and_complications {
   }
   dimension: zip_code {
     type: zipcode
-    sql: ${TABLE}.ZIP_Code ;;
+    sql: CAST(${TABLE}.ZIP_Code AS STRING) ;;
     map_layer_name: us_zipcode_tabulation_areas
   }
   measure: count {
@@ -164,6 +180,7 @@ view: death_and_complications {
     CASE WHEN ${composite_measures} IS NOT NULL
       THEN ${composite_measure_sum}/${count}
     ELSE ${percentage_rate} END;;
+    value_format: "[<0.5]0.00%;0.00"
   }
   measure: composite_measure_sum {
     type: sum_distinct
@@ -176,6 +193,6 @@ view: death_and_complications {
   }
   measure: percentage_rate {
     type: number
-    sql: ROUND(SUM(${occurances_of_complication_or_death})/SUM(NULLIF(${denominator},0))*100,2) ;;
+    sql: SUM(${occurances_of_complication_or_death})/SUM(NULLIF(${denominator},0));;
     }
 }
