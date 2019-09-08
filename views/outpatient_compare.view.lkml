@@ -162,5 +162,4 @@ view: outpatient_compare {
     ;;
   }
 
-
 }

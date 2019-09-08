@@ -34,10 +34,6 @@ view: death_and_complications {
   dimension: county_name {
     type: string
     sql: ${TABLE}.County_Name ;;
-    link: {
-      label: "Select Hospital"
-      url: "https://productday.dev.looker.com/dashboards/406?County={{bq_logrecno_bg_map.county._value}}"
-    }
   }
 
   dimension: denominator {
@@ -61,6 +57,10 @@ view: death_and_complications {
   dimension: hospital_name {
     type: string
     sql: ${TABLE}.Hospital_Name ;;
+    link:{
+      label: "Select Hospital"
+      url: "https://productday.dev.looker.com/dashboards/406?County={{county_name._value}}&Hospital Name={{value}}&Death Rate or Complication Score={{measure_name._value}}"
+    }
   }
 
   dimension: lower_estimate {
@@ -181,6 +181,11 @@ view: death_and_complications {
       THEN ${composite_measure_sum}/${count}
     ELSE ${percentage_rate} END;;
     value_format: "[<0.5]0.00%;0.00"
+    link: {
+      label: "Select Hospital"
+      url: "https://productday.dev.looker.com/dashboards/406?County={{county_name._value}}&Hospital Name=&Death Rate or Complication Score={{measure_name._value}}"
+    }
+    drill_fields: [county_name,state]
   }
   measure: composite_measure_sum {
     type: sum_distinct
