@@ -166,7 +166,7 @@ view: general_info {
     ELSE 'REST OF POPULATION' END ;;
   }
   dimension: region_of_hospital_to_compare {
-
+    hidden: yes
     type: string
     sql:
     CASE WHEN ${hospital_comparison} = {{hospital_name_filter._parameter_value}}
@@ -181,8 +181,14 @@ view: general_info {
     allowed_value: {label:"Zip"       value: "Zip"     }
     allowed_value: {label:"National"  value: "National"}
   }
-  dimension: region_param {
-    sql: {{region_granularity._parameter_value}} ;;
+  dimension: region_column{
+    hidden: yes
+    type: string
+    sql: (SELECT ${region_of_hospital_to_compare} FROM tj_thesis_med.general_info WHERE ${region_of_hospital_to_compare} IS NOT NULL) ;;
+  }
+  dimension: match_region {
+    type: yesno
+    sql: ${region_column} = ${region_granularity_dim} ;;
   }
   dimension: region_granularity_dim {
     sql:

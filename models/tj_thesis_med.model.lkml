@@ -19,6 +19,7 @@ explore: demographics_death_and_facility {
   }
 }
 explore: state_death_complication_measures {}
+
 explore: zip_to_location {
   extends: [fast_facts]
   join: zipcode_to_latlong_crosswalk {
@@ -27,6 +28,8 @@ explore: zip_to_location {
     sql_on: ${tract_zcta_map.ZCTA5} = ${zipcode_to_latlong_crosswalk.zipcode} ;;
   }
 }
+
+
 
 explore: outpatient_survey {
   join: general_info {
@@ -48,7 +51,7 @@ explore: outpatient_compare {
 explore: general_info {
   join: spending_by_claim {
     type: left_outer
-    relationship: one_to_many
+    relationship: one_to_one
     sql_on: ${general_info.provider_id} = ${spending_by_claim.provider_id} ;;
   }
   join: spending_per_patient {

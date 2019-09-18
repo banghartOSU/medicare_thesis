@@ -2,13 +2,11 @@ view: spending_by_claim {
   sql_table_name: tj_thesis_med.spending_by_claim ;;
 
   dimension: avg_spending_per_episode_hospital {
-    hidden: yes
     type: number
     sql: ${TABLE}.Avg_Spending_Per_Episode_Hospital ;;
   }
 
   dimension: avg_spending_per_episode_nation {
-    hidden: yes
     type: number
     sql: ${TABLE}.Avg_Spending_Per_Episode_Nation ;;
   }
@@ -55,6 +53,12 @@ view: spending_by_claim {
   dimension: period {
     type: string
     sql: ${TABLE}.Period ;;
+  }
+
+  dimension: primary_key {
+    primary_key: yes
+    type: string
+    sql: CONCAT(CAST(${provider_id} AS STRING),${period},${claim_type}) ;;
   }
 
   dimension: provider_id {

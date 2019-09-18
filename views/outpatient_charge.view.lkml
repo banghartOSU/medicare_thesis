@@ -9,18 +9,11 @@ view: outpatient_charge {
   dimension: apc_description {
     type: string
     sql: ${TABLE}.APC_Description ;;
-#     drill_fields: [spending_by_claim.period,spending_by_claim.percent_of_spending_hospital_measure]
-#     skip_drill_filter: yes
   }
 
   dimension: average_estimated_total_submitted_charges {
     type: number
     sql: CAST(${TABLE}.Average_Estimated_Total_Submitted_Charges as INT64) ;;
-  }
-  measure: average_estimated_total_submitted_charges_measure {
-    type: sum
-    sql: ${average_estimated_total_submitted_charges} ;;
-    value_format_name: usd
   }
   dimension: average_medicare_allowed_amount {
     type: number
@@ -36,18 +29,9 @@ view: outpatient_charge {
     type: number
     sql: CAST(${TABLE}.Average_Medicare_Payment_Amount as INT64);;
   }
-  measure: average_medicare_payment_amount_measure {
-    type: sum
-    sql: ${average_medicare_payment_amount} ;;
-    value_format_name: usd
-  }
   dimension: comprehensive_apc_services {
     type: number
     sql: ${TABLE}.Comprehensive_APC_Services ;;
-  }
-  measure: comprehensive_apc_services_measure {
-    type: sum
-    sql: ${comprehensive_apc_services} ;;
   }
 
   dimension: outlier_comprehensive_apc_services {
@@ -94,5 +78,15 @@ view: outpatient_charge {
   measure: count {
     type: count
     drill_fields: [provider_name]
+  }
+  measure: average_estimated_total_submitted_charges_measure {
+    type: sum
+    sql: ${average_estimated_total_submitted_charges} ;;
+    value_format_name: usd
+  }
+  measure: average_medicare_payment_amount_measure {
+    type: sum
+    sql: ${average_medicare_payment_amount} ;;
+    value_format_name: usd
   }
 }
