@@ -1,6 +1,13 @@
 view: outpatient_charge {
   sql_table_name: tj_thesis_med.out_patient_charge ;;
 
+  dimension: primary_key {
+    primary_key: yes
+    hidden: yes
+    type: string
+    sql: CONCAT(CAST(${provider_id} AS STRING), CAST(${apc} AS STRING))  ;;
+  }
+
   dimension: apc {
     type: number
     sql: ${TABLE}.APC ;;
@@ -9,6 +16,15 @@ view: outpatient_charge {
   dimension: apc_description {
     type: string
     sql: ${TABLE}.APC_Description ;;
+    link: {
+      label: "Choose Outpatient Charge"
+      url: "https://productday.dev.looker.com/dashboards/406?County={{general_info.county_name._value}}&Hospital Name={{_filters['general_info.hospital_name_filter']}}&Outpatient Procedure={{value}}"
+    }
+  }
+  dimension: apc_description_no_link {
+    type: string
+    sql: ${TABLE}.APC_Description ;;
+    drill_fields: [apc_description]
   }
 
   dimension: average_estimated_total_submitted_charges {
@@ -50,7 +66,6 @@ view: outpatient_charge {
   }
 
   dimension: provider_id {
-    primary_key: yes
     type: number
     sql: ${TABLE}.Provider_ID ;;
   }
@@ -80,12 +95,13 @@ view: outpatient_charge {
     drill_fields: [provider_name]
   }
   measure: average_estimated_total_submitted_charges_measure {
-    type: sum
+    type: average
     sql: ${average_estimated_total_submitted_charges} ;;
     value_format_name: usd
+    drill_fields: [general_info.hospital_name,average_estimated_total_submitted_charges_measure]
   }
   measure: average_medicare_payment_amount_measure {
-    type: sum
+    type: average
     sql: ${average_medicare_payment_amount} ;;
     value_format_name: usd
   }

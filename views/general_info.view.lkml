@@ -155,13 +155,15 @@ view: general_info {
   }
 #############################ONE TO MANY COMPARISON#########################################
   parameter: hospital_name_filter {
+    type: string
     description: "To be used only with Hospital Comparison"
     suggest_dimension: hospital_name
   }
   dimension: hospital_comparison {
     type: string
     sql:
-    CASE WHEN {{hospital_name_filter._parameter_value}} = ${hospital_name}
+    CASE WHEN
+    {{hospital_name_filter._parameter_value}} = ${hospital_name}
       THEN ${hospital_name}
     ELSE 'REST OF POPULATION' END ;;
   }
@@ -173,6 +175,15 @@ view: general_info {
       THEN ${region_granularity_dim}
     ELSE NULL END  ;;
   }
+  dimension: region_column{
+    type: string
+    sql: (SELECT ${region_of_hospital_to_compare} FROM tj_thesis_med.general_info WHERE ${region_of_hospital_to_compare} IS NOT NULL) ;;
+  }
+  dimension: match_region {
+    type: yesno
+    sql: ${region_column} = ${region_granularity_dim} ;;
+  }
+
   parameter: region_granularity {
     type: string
     allowed_value: {label:"State"     value: "State"   }
@@ -180,15 +191,6 @@ view: general_info {
     allowed_value: {label:"County"    value: "County"  }
     allowed_value: {label:"Zip"       value: "Zip"     }
     allowed_value: {label:"National"  value: "National"}
-  }
-  dimension: region_column{
-    hidden: yes
-    type: string
-    sql: (SELECT ${region_of_hospital_to_compare} FROM tj_thesis_med.general_info WHERE ${region_of_hospital_to_compare} IS NOT NULL) ;;
-  }
-  dimension: match_region {
-    type: yesno
-    sql: ${region_column} = ${region_granularity_dim} ;;
   }
   dimension: region_granularity_dim {
     sql:
@@ -204,6 +206,7 @@ view: general_info {
       "USA"
     {% endif %};;
   }
+
   measure: count {
     type: count
     drill_fields: [county_name, hospital_name]

@@ -18,7 +18,6 @@ explore: demographics_death_and_facility {
     sql_on: ${tract_zcta_map.ZCTA5} = ${general_info.zip_code} ;;
   }
 }
-explore: state_death_complication_measures {}
 
 explore: zip_to_location {
   extends: [fast_facts]
@@ -28,8 +27,6 @@ explore: zip_to_location {
     sql_on: ${tract_zcta_map.ZCTA5} = ${zipcode_to_latlong_crosswalk.zipcode} ;;
   }
 }
-
-
 
 explore: outpatient_survey {
   join: general_info {
@@ -48,7 +45,37 @@ explore: outpatient_compare {
   }
 }
 
+explore: charge_data {
+  extends: [fast_facts]
+  join: general_info {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${tract_zcta_map.ZCTA5} = ${general_info.zip_code} ;;
+  }
+  join: outpatient_charge {
+    sql_on: ${general_info.provider_id} = ${outpatient_charge.provider_id} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: inpatient_charge_data {
+    sql_on: ${inpatient_charge_data.provider_id} = ${general_info.provider_id} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: payment_data_general {
+    sql_on: ${general_info.provider_id} = ${payment_data_general.provider_id} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: unplanned_visits {
+    sql_on: ${unplanned_visits.provider_id} = ${general_info.provider_id} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+}
+
 explore: general_info {
+  sql_always_where: ${general_info.state} IS NOT NULL ;;
   join: spending_by_claim {
     type: left_outer
     relationship: one_to_one

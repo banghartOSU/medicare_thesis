@@ -105,50 +105,59 @@ view: outpatient_survey {
     type: sum
     sql: ${TABLE}.Patients_who_gave_the_facility_a_rating_of_9_or_10_on_a_scale_from_0__lowest__to_10__highest_ ;;
   }
-
+#####SURVEY RESPONSES####
   measure: patients_who_would_not_recommend_the_facility_to_family_or_friends {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_NO__they_would_not_recommend_the_facility_to_family_or_friends ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_NO__they_would_not_recommend_the_facility_to_family_or_friends)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   measure: patients_who_reported_they_would_recommend_the_facility_to_family_or_friends {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_PROBABLY_YES_they_would_recommend_the_facility_to_family_or_friends ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_PROBABLY_YES_they_would_recommend_the_facility_to_family_or_friends)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
  measure: patients_who_reported_that_staff_definitely_communicated_about_what_to_expect_during_and_after_the_procedure {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_that_staff_definitely_communicated_about_what_to_expect_during_and_after_the_procedure ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_that_staff_definitely_communicated_about_what_to_expect_during_and_after_the_procedure)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   measure: patients_who_reported_that_staff_definitely_gave_care_in_a_professional_way_and_the_facility_was_clean {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_that_staff_definitely_gave_care_in_a_professional_way_and_the_facility_was_clean ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_that_staff_definitely_gave_care_in_a_professional_way_and_the_facility_was_clean)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   measure: patients_who_reported_that_staff_did_not_communicate_about_what_to_expect_during_and_after_the_procedure {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_that_staff_did_not_communicate_about_what_to_expect_during_and_after_the_procedure ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_that_staff_did_not_communicate_about_what_to_expect_during_and_after_the_procedure)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   measure: patients_who_reported_that_staff_did_not_give_care_in_a_professional_way_or_the_facility_was_not_clean {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_that_staff_did_not_give_care_in_a_professional_way_or_the_facility_was_not_clean ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_that_staff_did_not_give_care_in_a_professional_way_or_the_facility_was_not_clean)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   measure: patients_who_reported_that_staff_somewhat_communicated_about_what_to_expect_during_and_after_the_procedure {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_that_staff_somewhat_communicated_about_what_to_expect_during_and_after_the_procedure ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_that_staff_somewhat_communicated_about_what_to_expect_during_and_after_the_procedure)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   measure: patients_who_reported_that_staff_somewhat_gave_care_in_a_professional_way_or_the_facility_was_somewhat_clean {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_that_staff_somewhat_gave_care_in_a_professional_way_or_the_facility_was_somewhat_clean ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_that_staff_somewhat_gave_care_in_a_professional_way_or_the_facility_was_somewhat_clean)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   measure: patients_who_reported_yes_they_would_definitely_recommend_the_facility_to_family_or_friends {
-    type: sum
-    sql: ${TABLE}.Patients_who_reported_YES_they_would_DEFINITELY_recommend_the_facility_to_family_or_friends ;;
+    type: number
+    sql: SUM(${TABLE}.Patients_who_reported_YES_they_would_DEFINITELY_recommend_the_facility_to_family_or_friends)/${number_of_completed_surveys} ;;
+    value_format_name: percent_1
   }
 
   dimension: state {

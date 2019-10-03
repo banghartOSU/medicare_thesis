@@ -162,7 +162,13 @@ view: death_and_complications {
 
   dimension: state {
     type: string
-    sql: ${TABLE}.State ;;
+    sql:
+    CASE WHEN ${TABLE}.State = 'PR'
+      OR ${TABLE}.State = 'GU'
+      OR ${TABLE}.State = 'MP'
+      OR ${TABLE}.State = 'DC'
+      OR ${TABLE}.State = 'VI'
+    THEN NULL ELSE ${TABLE}.State END;;
     map_layer_name: us_states
     link: {
       label: "State Level"
@@ -185,7 +191,7 @@ view: death_and_complications {
       THEN ${composite_measure_sum}/${count}
     ELSE ${percentage_rate} END;;
     value_format: "[<0.5]0.00%;0.00"
-    drill_fields: [county_name,state]
+    drill_fields: [hospital_name,respective_scores,county_name,state, measure_id]
   }
   measure: composite_measure_sum {
     type: sum_distinct
