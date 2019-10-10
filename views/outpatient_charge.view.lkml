@@ -18,7 +18,7 @@ view: outpatient_charge {
     sql: ${TABLE}.APC_Description ;;
     link: {
       label: "Choose Outpatient Charge"
-      url: "https://productday.dev.looker.com/dashboards/406?County={{general_info.county_name._value}}&Hospital Name={{_filters['general_info.hospital_name_filter']}}&Outpatient Procedure={{value}}"
+      url: "https://productday.dev.looker.com/dashboards/406?County={{_filters['general_info.county_name']}}&Hospital Name={{_filters['general_info.hospital_name_filter']}}&Outpatient Procedure={{value}}"
     }
   }
   dimension: apc_description_no_link {
