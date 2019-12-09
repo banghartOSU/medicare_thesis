@@ -1,4 +1,7 @@
+include: "/views/**/new_test.view"
+
 view: unplanned_visits {
+  extends: [new_test]
   sql_table_name: tj_thesis_med.unplanned_visits ;;
 
   dimension: primary_key {
@@ -10,21 +13,6 @@ view: unplanned_visits {
     type: string
     default_value: "City"
     suggest_dimension: city
-  }
-
-  dimension: address {
-    type: string
-    sql: ${TABLE}.Address ;;
-  }
-
-  dimension: city {
-    type: string
-    sql: ${TABLE}.City ;;
-  }
-
-  dimension: compared_to_national {
-    type: string
-    sql: ${TABLE}.Compared_to_National ;;
   }
 
   dimension: county_name {
@@ -182,12 +170,12 @@ view: unplanned_visits {
     sql: SAFE_DIVIDE(${higher_estimate_sum},${denominator_measure}) ;;
     value_format_name: percent_1
   }
-  #####
 
   measure: denominator_measure {
     type: sum
     sql: ${denominator};;
   }
+
   measure: count {
     type: count
     drill_fields: [county_name, measure_name, hospital_name]

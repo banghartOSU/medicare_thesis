@@ -82,6 +82,7 @@ view: inpatient_charge_data {
     type: number
     sql: ${TABLE}.Total_Discharges ;;
   }
+
   measure: average_covered_charges_measure {
     type: average
     sql: ${TABLE}.Average_Covered_Charges ;;

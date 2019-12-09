@@ -211,4 +211,11 @@ view: general_info {
     type: count
     drill_fields: [county_name, hospital_name]
   }
+  measure: filter_count {
+    type: count
+    filters: {
+      field: effectiveness_of_care_national_comparison
+      value: "Above the national average"
+    }
+  }
 }
