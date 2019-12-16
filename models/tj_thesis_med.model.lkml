@@ -5,7 +5,7 @@ include: "//tj_thesis_demographics/datablocks-acs/bigquery.explore.lkml"
 include: "//tj_thesis_demographics/datablocks-acs/zipcode_to_latlong_crosswalk.view"
 
 datagroup: tj_thesis_med_default_datagroup {
-  max_cache_age: "10 minutes"
+  max_cache_age: "1000 hours"
 }
 
 persist_with: tj_thesis_med_default_datagroup
