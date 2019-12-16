@@ -46,6 +46,7 @@ explore: outpatient_compare {
 }
 
 explore: charge_data {
+  persist_with: tj_thesis_med_default_datagroup
   extends: [fast_facts]
   join: general_info {
     type: left_outer
