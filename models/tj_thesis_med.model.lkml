@@ -6,6 +6,7 @@ include: "//tj_thesis_demographics/datablocks-acs/zipcode_to_latlong_crosswalk.v
 
 datagroup: tj_thesis_med_default_datagroup {
   max_cache_age: "1000 hours"
+  sql_trigger: SELECT 1 ;;
 }
 
 persist_with: tj_thesis_med_default_datagroup
@@ -100,6 +101,11 @@ explore: general_info {
     type: left_outer
     relationship: one_to_many
     sql_on: ${general_info.provider_id} = ${outpatient_charge.provider_id} ;;
+  }
+  join: average_by_apc {
+    sql_on: ${average_by_apc.apc_description} = ${outpatient_charge.apc_description} ;;
+    relationship: one_to_one
+    type: inner
   }
   join: death_and_complications {
     type: left_outer

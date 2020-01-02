@@ -106,3 +106,17 @@ view: outpatient_charge {
     value_format_name: usd
   }
 }
+#NDT example
+view: average_by_apc{
+  derived_table: {
+    explore_source: general_info {
+      column: average_medicare_payment_amount_measure { field: outpatient_charge.average_medicare_payment_amount_measure }
+      column: apc_description { field: outpatient_charge.apc_description }
+    }
+  }
+  dimension: average_medicare_payment_amount_measure {
+    value_format: "$#,##0.00"
+    type: number
+  }
+  dimension: apc_description {hidden: yes}
+}
